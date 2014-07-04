@@ -45,5 +45,9 @@ convert out*.gif -layers Optimize combined.gif
 
 There is [an example directory](examples/), but here's some example output:
 
-An NetHack ascension by [Maud](http://alt.org/nethack/plr.php?player=Maud):
-![Maud ascension](examples/nethack-ascension-maud-2010-02-03.05-59-29/out00007.gif)
+The beginning of an NetHack ascension by [Maud](http://alt.org/nethack/plr.php?player=Maud):
+![Maud ascension](examples/nethack-ascension-maud-2010-02-03.05-59-29/out00000.gif)
+
+## Note
+There appear to be occasional screen artifacts.
+I believe this is a bug in the GIFs, possibly from ImageMagick.
