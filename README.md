@@ -24,6 +24,7 @@ Then run
 ```sh
 virtualenv
 ./ttyrec
+```
 
 Outputs out00000.gif, out00001.gif, etc., that are
 roughly 5 minutes long.
