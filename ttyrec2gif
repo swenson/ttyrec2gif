@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+#
 # Call with a single argument, the ttyrec to convert
 #
 # Outputs out00000.gif, out00001.gif, etc., that are
