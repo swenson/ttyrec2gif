@@ -40,3 +40,10 @@ be very, very slow):
 ```sh
 convert out*.gif -layers Optimize combined.gif
 ```
+
+## Examples
+
+There is [an example directory](examples/), but here's some example output:
+
+An NetHack ascension by [Maud](http://alt.org/nethack/plr.php?player=Maud):
+![Maud ascension](examples/nethack-ascension-maud-2010-02-03.05-59-29/out00007.gif)
