@@ -22,8 +22,7 @@ http://nethack.wikia.com/wiki/Notable_ascensions (you may need to `bunzip2` it).
 Then run
 
 ```sh
-virtualenv
-./ttyrec
+./ttyrec yourttyrecfilehere
 ```
 
 Outputs out00000.gif, out00001.gif, etc., that are
