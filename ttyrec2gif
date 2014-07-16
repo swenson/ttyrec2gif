@@ -18,6 +18,7 @@ from __future__ import print_function, unicode_literals
 from images2gif import writeGif
 from PIL import Image
 from threading import Thread
+import argparse
 import numpy as np
 import os
 import pyte
@@ -25,14 +26,6 @@ import struct
 import sys
 import time
 
-optimize_gifs = False # requires 'convert' program from ImageMagick
-screen_width = 130
-screen_height = 24
-speedup = 5.0 # make it go faster than normal
-
-stream = pyte.Stream()
-screen = pyte.Screen(screen_width, screen_height)
-stream.attach(screen)
 
 
 def frames(fname):
@@ -58,7 +51,7 @@ font.convert('RGB')
 
 letters = []
 
-
+# specs for Codepage-437.png
 char_width = 9
 char_height = 16
 width = 304
@@ -135,12 +128,6 @@ def render(num):
           img[y,x,:] = color
   return img
 
-images = []
-delays = []
-play_time = 0.0
-running_time = 0.0
-frame_start = time.time()
-output = 0
 
 def writeOut(fname, images, delays):
   print("Writing %s" % fname)
@@ -155,25 +142,56 @@ def writeOut(fname, images, delays):
   os.system('rm temp%s' % fname)
   print("Done writing %s after %.3f seconds" % (fname, time.time() - start))
 
-for i, (frame, delay) in enumerate(frames(sys.argv[1])):
-  stream.feed(frame)
-  images.append(render(i))
-  if delay > 2.0:
-    delay = 2.0 # don't wait too long
-  delays.append(delay / speedup)
-  play_time += delay
-  running_time += delay / speedup
-  print("%5d  delay %3.3f  running %.2f" % (i, delay, running_time))
-  if running_time > 5 * 60.0:
+if __name__ == '__main__':
+  parser = argparse.ArgumentParser(description='Convert ttyrec files to animated GIFs.')
+  parser.add_argument('--width', dest='width', action='store', type=int, default=130,
+                      help='Screen width to simulate')
+  parser.add_argument('--height', dest='height', action='store', type=int, default=24,
+                      help='Screen height to simulate')
+  parser.add_argument('--speedup', dest='speedup', action='store', type=float, default=5.0,
+                      help='Run the ttyrec faster (1.0 = normal, 2.0 = twice as fast)')
+  parser.add_argument('--optimize', dest='optimize', action='store_true', default=False,
+                      help='Optimize the GIFs with ImageMagic convert (very slow)')
+  parser.add_argument('fname', metavar='ttyrecfile', help='A ttyrecfile')
+  args = parser.parse_args()
+
+  optimize_gifs = args.optimize
+  screen_width = args.width
+  screen_height = args.height
+  speedup = args.speedup
+
+  stream = pyte.Stream()
+  screen = pyte.Screen(screen_width, screen_height)
+  stream.attach(screen)
+
+
+  images = []
+  delays = []
+  play_time = 0.0
+  running_time = 0.0
+  frame_start = time.time()
+  output = 0
+
+
+  for i, (frame, delay) in enumerate(frames(args.fname)):
+    stream.feed(frame)
+    images.append(render(i))
+    if delay > 2.0:
+      delay = 2.0 # don't wait too long
+    delays.append(delay / speedup)
+    play_time += delay
+    running_time += delay / speedup
+    print("%5d  delay %3.3f  running %.2f" % (i, delay, running_time))
+    if running_time > 5 * 60.0:
+      writeOut('out%05d.gif' % output, images, delays)
+      output += 1
+      images = []
+      delays = []
+      running_time = 0.0
+  frame_end = time.time()
+
+  if images:
     writeOut('out%05d.gif' % output, images, delays)
-    output += 1
-    images = []
-    delays = []
-    running_time = 0.0
-frame_end = time.time()
 
-if images:
-  writeOut('out%05d.gif' % output, images, delays)
-
-print("Game time: %.3f seconds" % play_time)
-print("Frame rendering time: %.3f seconds, %.3f ms per frame" % (frame_end - frame_start, 1000.0 * (frame_end - frame_start) / float(i)))
+  print("Game time: %.3f seconds" % play_time)
+  print("Frame rendering time: %.3f seconds, %.3f ms per frame" % (frame_end - frame_start, 1000.0 * (frame_end - frame_start) / float(i)))
