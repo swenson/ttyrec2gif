@@ -51,7 +51,8 @@ The beginning of a NetHack ascension by [Maud](http://alt.org/nethack/plr.php?pl
 ## Mac Screensaver
 
 You can use the included [gif-screensaver.qtz](gif-screensaver.qtz) to use these animated GIFs
-as a screensaver for Macs (written in Quartz Composer).
+as a screensaver for Macs (written in Quartz Composer),
+or download the prepackaged [Nethack Screensaver](nethack-screensaver.zip) with some GIFs preloaded.
 
 ## Note
 There appear to be occasional screen artifacts.
