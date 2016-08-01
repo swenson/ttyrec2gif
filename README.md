@@ -48,6 +48,11 @@ There is [an example directory](examples/), but here's some example output:
 The beginning of a NetHack ascension by [Maud](http://alt.org/nethack/plr.php?player=Maud):
 ![Maud ascension](examples/nethack-ascension-maud-2010-02-03.05-59-29/out00000.gif)
 
+## Mac Screensaver
+
+You can use the included [gif-screensaver.qtz](gif-screensaver.qtz) to use these animated GIFs
+as a screensaver for Macs (written in Quartz Composer).
+
 ## Note
 There appear to be occasional screen artifacts.
 I believe this is a bug in the GIFs, possibly from ImageMagick.
